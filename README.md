@@ -19,5 +19,5 @@ My personal configuration files for Hyprland and related applications.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/hyprland-dotfiles.git
+   git clone https://github.com/basbassi-houssam/hyprland-dotfiles.git
    cd hyprland-dotfiles
