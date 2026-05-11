@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dir="$HOME/.config/rofi/drun-themes"
+source "$HOME/.config/rofi/drun-themes/theme.bash"
+
+rofi -show drun -theme "$dir/$theme.rasi" || pkill rofi

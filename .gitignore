@@ -1,0 +1,22 @@
+# Editor files
+*.swp
+*.swo
+*~
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Sensitive files (add any that contain passwords/tokens)
+*.key
+*.secret
+
+# Large cache files
+**/cache/
+**/__pycache__/
+**/*.pyc
+
+# Neovim specific
+.nvim/undo/
+.nvim/swap/
+.nvim/backup/

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source "$HOME/.config/waybar/theme.bash"
+
+killall -9 waybar
+
+waybar --config $HOME/.config/waybar/$theme.jsonc --style $HOME/.config/waybar/themes/$theme/$theme.css &

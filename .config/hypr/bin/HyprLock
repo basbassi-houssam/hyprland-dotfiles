@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "$HOME/.config/hypr/hyprlock/theme.bash"
+
+hyprlock -c "$HOME/.config/hypr/hyprlock/$theme.conf"

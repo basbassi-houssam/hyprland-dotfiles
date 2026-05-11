@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# Slideshow script using awww (renamed from swww)
+# Usage: ./slideshow.sh [directory_path] [transition_duration_seconds]
+
+# Kill old Processes
+
+PIDFILE="/tmp/slideshow.pid"
+
+# Kill old process if PID file exists
+if [ -f "$PIDFILE" ]; then
+  old_pid=$(cat "$PIDFILE")
+  if kill -0 "$old_pid" 2>/dev/null; then
+    echo "Killing old slideshow process (PID: $old_pid)"
+    kill -9 "$old_pid"
+  fi
+fi
+
+# Save current PID
+echo $$ >"$PIDFILE"
+
+# Configuration
+WALLPAPER_DIR="${1:-$HOME/Pictures/minimal}" # First argument or default path
+TRANSITION_DURATION="${2:-2}"                # Second argument or default 2 seconds
+SLIDESHOW_INTERVAL=600                       # Time between transitions (seconds)
+FPS=60                                       # Frames per second for transitions
+
+# Array of available transition types for awww
+TRANSITION_TYPES=(
+  "fade"
+  "center"
+  "simple"
+  "wave"
+  "grow"
+  "any"
+)
+
+# Check if awww is installed
+if ! command -v awww &>/dev/null; then
+  echo "Error: awww (renamed swww) is not installed or not in PATH"
+  echo "Please ensure swww is installed and renamed to awww"
+  exit 1
+fi
+
+# Check if directory exists
+if [ ! -d "$WALLPAPER_DIR" ]; then
+  echo "Error: Directory '$WALLPAPER_DIR' does not exist"
+  exit 1
+fi
+
+# Get all image files (common formats)
+shopt -s nullglob
+images=("$WALLPAPER_DIR"/*.{jpg,jpeg,png,gif,bmp,webp})
+shopt -u nullglob
+
+# Check if we found any images
+if [ ${#images[@]} -eq 0 ]; then
+  echo "Error: No image files found in '$WALLPAPER_DIR'"
+  echo "Supported formats: jpg, jpeg, png, gif, bmp, webp"
+  exit 1
+fi
+
+echo "Starting slideshow from: $WALLPAPER_DIR"
+echo "Found ${#images[@]} images"
+echo "Transition duration: ${TRANSITION_DURATION}s at ${FPS}fps"
+echo "Slideshow interval: ${SLIDESHOW_INTERVAL}s"
+echo "Using random transition types and random wallpaper selection"
+echo "-----------------------------------"
+
+# Main slideshow loop
+while true; do
+  # Pick random image
+  random_index=$((RANDOM % ${#images[@]}))
+  current_image="${images[$random_index]}"
+
+  # Pick random transition type
+  random_transition=$((RANDOM % ${#TRANSITION_TYPES[@]}))
+  transition_type="${TRANSITION_TYPES[$random_transition]}"
+
+  # Set wallpaper with random transition at 60fps
+  echo "$(date '+%H:%M:%S') - Setting: $(basename "$current_image") (transition: $transition_type, ${FPS}fps)"
+  awww img "$current_image" \
+    --transition-type "$transition_type" \
+    --transition-duration "$TRANSITION_DURATION" \
+    --transition-fps "$FPS"
+
+  # Wait before next image
+  sleep "$SLIDESHOW_INTERVAL"
+done

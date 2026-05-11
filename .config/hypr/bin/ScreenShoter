@@ -1,0 +1,184 @@
+#!/bin/sh
+# =============================================================
+# Author:  gh0stzk (Hyprland port)
+# Repo:    https://github.com/gh0stzk/dotfiles
+# Date:    29.01.2025
+#
+# ScreenShoTer - A versatile screenshot script for Hyprland
+# Features:
+#   - Supports single and multi-monitor setups
+#   - By default captures only the monitor where cursor is located
+#   - Special option to capture all monitors at once
+#   - Multiple capture modes:
+#     	* Full screenshot of current monitor
+#     	* Custom area selection or active window capture
+#     	* Timed captures (3 seconds)
+#     	* Timed area selection (3 seconds after selection)
+#   - System notifications when taking screenshots
+#   - Automatic clipboard copy
+#   - Saves screenshots with timestamp
+#   - Works on Hyprland environments
+#
+# Dependencies: grim, slurp, rofi, wl-clipboard, swaync, hyprctl, jq
+#
+# Copyright (C) 2021-2026 gh0stzk <z0mbi3.zk@protonmail.com>
+# Licensed under GPL-3.0 license
+# =============================================================
+
+source "$HOME/.config/rofi/screenshot-themes/theme.bash"
+
+# Screenshot general options
+timestamp=$(date +%Y-%m-%d-%H%M%S)
+dir="$(xdg-user-dir PICTURES)/ScreenShots"
+filename="$dir/Shot-${timestamp}.png"
+
+# Create dir if not exists
+[ -d "$dir" ] || mkdir -p "$dir"
+
+# Rofi options
+s_full=""
+s_select=""
+s_in3=" 󰔝"
+s_select_in3=" 󰔝"
+s_all="󰍹"
+
+# Function to get current monitor name based on mouse position
+get_current_monitor_name() {
+  # Get mouse position
+  mouse_x=$(hyprctl cursorpos -j | jq -r '.x')
+  mouse_y=$(hyprctl cursorpos -j | jq -r '.y')
+
+  # Find monitor name at cursor position
+  hyprctl monitors -j | jq -r --arg mx "$mouse_x" --arg my "$mouse_y" '
+        .[] | select(
+            (.x | tonumber) <= ($mx | tonumber) and 
+            (.x + .width | tonumber) >= ($mx | tonumber) and 
+            (.y | tonumber) <= ($my | tonumber) and 
+            (.y + .height | tonumber) >= ($my | tonumber)
+        ) | .name' | head -n1
+}
+
+rofi_cmd() {
+  rofi -dmenu \
+    -p Screenshot \
+    -mesg "Directory :: $dir" \
+    -markup-rows \
+    -theme "$HOME/.config/rofi/screenshot-themes/$theme.rasi" || pkill rofi
+}
+
+run_rofi() {
+  printf "%s\n%s\n%s\n%s\n%s\n" "$s_full" "$s_select" "$s_in3" "$s_select_in3" "$s_all" | rofi_cmd
+}
+
+show_notification() {
+  if [ -e "$filename" ]; then
+    notify-send -r 699 -i "$filename" "Screenshot" "Screenshot saved and copied to clipboard"
+  else
+    notify-send -r 699 -i "user-trash" "Screenshot" "Screenshot Canceled"
+  fi
+}
+
+copy_screenshot() {
+  wl-copy <"$filename"
+}
+
+take_screenshot() {
+  mode="$1"
+  all_monitors="$2"
+
+  case "$mode" in
+  "full")
+    sleep 1
+    if [ "$all_monitors" != "true" ]; then
+      monitor_name=$(get_current_monitor_name)
+      if [ -n "$monitor_name" ]; then
+        grim -o "$monitor_name" "$filename"
+      else
+        grim "$filename"
+      fi
+    else
+      grim "$filename"
+    fi
+    ;;
+  "select")
+    geometry=$(slurp -d -c "#7722DC")
+    sleep 1
+    if [ -n "$geometry" ]; then
+      grim -g "$geometry" "$filename"
+    else
+      return 1
+    fi
+    ;;
+  esac
+
+  if [ "$?" -eq 0 ] && [ -e "$filename" ]; then
+    if [ -s "$filename" ]; then
+      paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga >/dev/null 2>&1
+      copy_screenshot
+      show_notification
+    else
+      rm -f "$filename"
+      return 1
+    fi
+  fi
+}
+
+countdown() {
+  for sec in $(seq "$1" -1 1); do
+    notify-send -r 345 -t 1100 -i ~/.config/hypr/config/assets/screenshot.png "Taking shot in : $sec"
+    sleep 1
+  done
+}
+
+run_cmd() {
+  case $1 in
+  --now)
+    take_screenshot "full" false
+    ;;
+  --sel)
+    take_screenshot "select" false
+    ;;
+  --in3)
+    countdown 3 && take_screenshot "full" false
+    ;;
+  --sel-in3)
+    geometry=$(slurp -d -c "#7722DC")
+    if [ -n "$geometry" ]; then
+      countdown 3
+      grim -g "$geometry" "$filename"
+      if [ "$?" -eq 0 ] && [ -s "$filename" ]; then
+        paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga >/dev/null 2>&1
+        copy_screenshot
+        show_notification
+      else
+        rm -f "$filename"
+        return 1
+      fi
+    else
+      return 1
+    fi
+    ;;
+  --all)
+    take_screenshot "full" true
+    ;;
+  esac
+}
+
+select_option="$(run_rofi)"
+case ${select_option} in
+"$s_full")
+  run_cmd --now
+  ;;
+"$s_select")
+  run_cmd --sel
+  ;;
+"$s_in3")
+  run_cmd --in3
+  ;;
+"$s_select_in3")
+  run_cmd --sel-in3
+  ;;
+"$s_all")
+  run_cmd --all
+  ;;
+esac

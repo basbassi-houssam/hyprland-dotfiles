@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source "$HOME/.config/swaync/theme.bash"
+
+killall -9 swaync
+killall -9 swaync
+killall -9 swaync
+killall -9 swaync
+killall -9 swaync
+
+swaync --config $HOME/.config/swaync/configs/$theme.json --style $HOME/.config/swaync/styles/$theme.css &

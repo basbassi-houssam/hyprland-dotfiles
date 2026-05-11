@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Configuration
+ROFI_THEME="window {width: 250px;}"
+NOTIFY_TIMEOUT=3000
+SLEEP_TIME=3
+HyprLock="$HOME/.config/hypr/bin/HyprLock"
+
+case "$1" in
+lock)
+  # Lock screen
+  notify-send -u normal -t 1000 "🔒 LOCKED" "Screen is locked"
+  sleep 1
+  $HyprLock
+  ;;
+
+reboot)
+  # Confirmation with rofi
+  CHOICE=$(echo -e "No\nYes" | rofi -dmenu -p "⚠️ REBOOT?" -theme-str "$ROFI_THEME")
+
+  if [[ "$CHOICE" == "Yes" ]]; then
+    notify-send -u critical -t $NOTIFY_TIMEOUT "🟡 REBOOT" "System will reboot in $SLEEP_TIME seconds..."
+    sleep $SLEEP_TIME
+    hyprctl dispatch exit 0
+    systemctl reboot
+  else
+    notify-send -u normal -t 1000 "❌ CANCELLED" "Reboot cancelled"
+  fi
+  ;;
+
+poweroff)
+  # Confirmation with rofi
+  CHOICE=$(echo -e "No\nYes" | rofi -dmenu -p "⚠️ POWER OFF?" -theme-str "$ROFI_THEME")
+
+  if [[ "$CHOICE" == "Yes" ]]; then
+    notify-send -u critical -t $NOTIFY_TIMEOUT "🔴 POWER OFF" "System will shut down in $SLEEP_TIME seconds..."
+    sleep $SLEEP_TIME
+    hyprctl dispatch exit 0
+    systemctl poweroff
+  else
+    notify-send -u normal -t 1000 "❌ CANCELLED" "Power off cancelled"
+  fi
+  ;;
+
+*)
+  echo "Usage: $0 {lock|reboot|poweroff}"
+  exit 1
+  ;;
+esac

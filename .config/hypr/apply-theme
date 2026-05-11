@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source $HOME/.config/hypr/theme.bash
+
+# Write theme files
+
+echo "theme='$theme'" | tee "$HOME/.config/rofi/drun-themes/theme.bash"
+echo "theme='$theme'" | tee "$HOME/.config/rofi/screenshot-themes/theme.bash"
+echo "theme='$theme'" | tee "$HOME/.config/hypr/hyprlock/theme.bash" # Watch this one
+echo "theme='$theme'" | tee "$HOME/.config/waybar/theme.bash"
+echo "theme='$theme'" | tee "$HOME/.config/swaync/theme.bash"
+
+echo "include ./themes/${theme}.conf" | tee "$HOME/.config/kitty/theme.conf" >/dev/null
+
+# Reload Hyprland configuration
+"$HOME/.config/hypr/Reload"

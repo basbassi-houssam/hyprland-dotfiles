@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Directory containing your scripts
+SCRIPTS_DIR="$HOME/.config/hypr/launchers"
+
+# First, reload hyprland directly
+echo "Reloading Hyprland..."
+hyprctl reload
+
+# Then run all other executable scripts in the background
+for script in "$SCRIPTS_DIR"/*; do
+  if [ -f "$script" ] && [ -x "$script" ]; then
+    script_name=$(basename "$script")
+    echo "Running: $script_name"
+    "$script" & # <-- Added & here
+  fi
+done
+
+wait # Optional: wait for all background jobs to complete
+echo "All reloads completed!"
