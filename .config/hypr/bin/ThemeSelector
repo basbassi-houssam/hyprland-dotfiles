@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Current Theme
+
+source "$HOME/.config/rofi/theme-selector-themes/theme.bash"
+
+# Define the themes with their image paths
+themes=(
+  "style-1|Style 1|~/.config/rofi/theme-selector-themes/images/style-1.png"
+  "style-2|Style 2|~/.config/rofi/theme-selector-themes/images/style-2.png"
+  "style-3|Style 3|~/.config/rofi/theme-selector-themes/images/style-3.png"
+)
+
+# Path to your rofi theme
+rofi_theme="$HOME/.config/rofi/theme-selector-themes/$theme.rasi"
+
+# Create menu entries with proper icon paths
+menu_entries=""
+for theme in "${themes[@]}"; do
+  IFS='|' read -r value display_name icon_path <<<"$theme"
+  # Expand tilde to full home path
+  icon_path="${icon_path/#\~/$HOME}"
+  menu_entries="${menu_entries}${display_name}\x00icon\x1f${icon_path}\n"
+done
+
+# Show rofi menu with images
+selected_display=$(echo -e "$menu_entries" | rofi -dmenu -p "Select Theme" -theme "$rofi_theme" -markup-rows || pkill rofi)
+
+# Find the corresponding theme value
+selected_theme=""
+for theme in "${themes[@]}"; do
+  IFS='|' read -r value display_name icon_path <<<"$theme"
+  if [ "$selected_display" = "$display_name" ]; then
+    selected_theme="$value"
+    break
+  fi
+done
+
+# Check if a theme was selected
+if [ -n "$selected_theme" ]; then
+  # Path to theme.bash file
+  theme_file="$HOME/.config/hypr/theme.bash"
+
+  # Check if theme file exists
+  if [ -f "$theme_file" ]; then
+    # Update the theme variable in theme.bash
+    sed -i "s/^theme='.*'$/theme='$selected_theme'/" "$theme_file"
+
+    echo "Theme updated to: $selected_theme"
+
+    # Run the apply-theme script if it exists
+    apply_script="$HOME/.config/hypr/apply-theme"
+    if [ -f "$apply_script" ]; then
+      echo "Applying theme..."
+      bash "$apply_script"
+    else
+      echo "Warning: $apply_script not found"
+    fi
+  else
+    echo "Error: $theme_file not found"
+    exit 1
+  fi
+else
+  echo "No theme selected"
+  exit 0
+fi

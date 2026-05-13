@@ -7,7 +7,7 @@
     "cpu",
     "memory",
     "pulseaudio",
-    "network",
+    "network#eth",
     "custom/notification"
   ],
 
@@ -54,6 +54,9 @@
       "default": ""
     },
     "sort-by-number": true,
+    "persistent-workspaces": {
+      "*": 5
+    }
   },
 
   "tray": {
@@ -68,7 +71,7 @@
   "pulseaudio": {
       "format": "{volume}% {icon}",
       "format-bluetooth": "{volume}% {icon}",
-      "format-muted": "",
+      "format-muted": "",
       "format-icons": {
           "alsa_output.pci-0000_00_1f.3.analog-stereo": "",
           "alsa_output.pci-0000_00_1f.3.analog-stereo-muted": "",
@@ -87,17 +90,35 @@
       "ignored-sinks": ["Easy Effects Sink"],
   },
 
-  "network": {
+  // Wi-Fi module
+  "network#wifi": {
+      "interface": "wlan0",
+      "format-wifi": "{icon} {essid}",
+      "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+      "format-ethernet": "",
+      "format-disconnected": "󰤮 Disconnected",
+      "format-linked": "",
+      "tooltip": false,
+      "tooltip-format-wifi": "SignalStrength - {signalStrength}%",
+      "tooltip-format-ethernet": "",
+      "tooltip-format-disconnected": "󰤮 disconnected",
+      "max-length": 50,
+      "interval": 5
+  },
+
+  // Ethernet module
+  "network#eth": {
       "interface": "enp4s0",
-      "format": "{ifname}",
-      "format-wifi": "{essid} ({signalStrength}%) ",
-      "format-ethernet": "{ifname} 󰈀",
-      "format-disconnected": "", //An empty format will hide the module.
-      "tooltip-format": "{ifname} via {gwaddr} 󰊗",
-      "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-      "tooltip-format-ethernet": "{ifname} ",
-      "tooltip-format-disconnected": "Disconnected",
-      "max-length": 50
+      "format-ethernet": "󰌘 {ifname}",
+      "format-wifi": "",
+      "format-disconnected": "󰌙 Disconnected",
+      "format-linked": "󰌙 Disconnected",
+      "tooltip": false,
+      "tooltip-format-ethernet": "{ifname} - IP: {ipaddr}",
+      "tooltip-format-wifi": "",
+      "tooltip-format-disconnected": "Ethernet disconnected",
+      "max-length": 50,
+      "interval": 5
   },
 
   "custom/notification": {

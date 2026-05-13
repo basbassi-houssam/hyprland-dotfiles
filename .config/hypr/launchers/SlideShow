@@ -3,6 +3,8 @@
 # Slideshow script using awww (renamed from swww)
 # Usage: ./slideshow.sh [directory_path] [transition_duration_seconds]
 
+source "$HOME/Pictures/wallpapers/theme.bash"
+
 # Kill old Processes
 
 PIDFILE="/tmp/slideshow.pid"
@@ -20,10 +22,10 @@ fi
 echo $$ >"$PIDFILE"
 
 # Configuration
-WALLPAPER_DIR="${1:-$HOME/Pictures/minimal}" # First argument or default path
-TRANSITION_DURATION="${2:-2}"                # Second argument or default 2 seconds
-SLIDESHOW_INTERVAL=600                       # Time between transitions (seconds)
-FPS=60                                       # Frames per second for transitions
+WALLPAPER_DIR="${1:-$HOME/Pictures/wallpapers/$theme}" # First argument or default path
+TRANSITION_DURATION="${2:-2}"                          # Second argument or default 2 seconds
+SLIDESHOW_INTERVAL=600                                 # Time between transitions (seconds)
+FPS=60                                                 # Frames per second for transitions
 
 # Array of available transition types for awww
 TRANSITION_TYPES=(

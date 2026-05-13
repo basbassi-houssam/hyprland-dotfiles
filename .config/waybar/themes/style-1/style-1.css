@@ -96,7 +96,12 @@ tooltip {
   color: @yellow;
 }
 
-#network {
+#network#wifi,
+#network#eth {
   color: @purple;
 }
 
+#network#wifi.disconnected,
+#network#eth.disconnected {
+  color: @fg;
+}

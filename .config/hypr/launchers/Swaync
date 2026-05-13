@@ -8,4 +8,4 @@ killall -9 swaync
 killall -9 swaync
 killall -9 swaync
 
-swaync --config $HOME/.config/swaync/configs/$theme.json --style $HOME/.config/swaync/styles/$theme.css &
+swaync --config $HOME/.config/swaync/configs/$theme.json --style $HOME/.config/swaync/styles/$theme/$theme.css &
