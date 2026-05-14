@@ -1,0 +1,8 @@
+{
+  "clock": {
+      "interval": 60,
+      "format": " {:%H:%M}",
+      "tooltip-format": "{:%d-%b-%Y}",
+      "max-length": 25
+  },
+}

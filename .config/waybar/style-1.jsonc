@@ -1,5 +1,17 @@
 {
   "position": "top",
+  "include": [
+      "modules/style-1-modules/clock.jsonc",
+      "modules/style-1-modules/hyprland-workspaces.jsonc",
+      "modules/style-1-modules/cpu.jsonc",
+      "modules/style-1-modules/memory.jsonc",
+      "modules/style-1-modules/tray.jsonc",
+      "modules/style-1-modules/custom-weather.jsonc",
+      "modules/style-1-modules/pulseaudio.jsonc",
+      "modules/style-1-modules/network-eth.jsonc",
+      "modules/style-1-modules/network#wifi.jsonc",
+      "modules/style-1-modules/custom-notification.jsonc",
+  ],
   "margin-top": 15,
   "modules-left": ["clock", "hyprland/workspaces", "custom/weather"],
   "modules-center": ["tray"],
@@ -10,135 +22,4 @@
     "network#eth",
     "custom/notification"
   ],
-
-  "cpu": {
-      "interval": 1,
-      "format": "{usage}% ",
-      "tooltip": false,
-      "max-length": 10
-  },
-
-  "memory": {
-      "interval": 1,
-      "format": "{percentage}% ",
-      "tooltip": true,
-      "max-length": 10
-  },
-
-  "clock": {
-      "interval": 60,
-      "format": " {:%H:%M}",
-      "tooltip-format": "{:%d-%b-%Y}",
-      "max-length": 25
-  },
-
-  "custom/weather": {
-    "exec": "~/.config/waybar/bin/Weather waybar",
-    "interval": 300,
-    "tooltip": false,
-    "markup": "pango",
-  },
-
-  "hyprland/workspaces": {
-    "format": "{icon}",
-    "on-click": "activate",
-    "cursor": false,
-    "format-icons": {
-      "1": "",
-      "2": "",
-      "3": "",
-      "4": "",
-      "5": "",
-      "urgent": "",
-      "active": "",
-      "default": ""
-    },
-    "sort-by-number": true,
-    "persistent-workspaces": {
-      "*": 5
-    }
-  },
-
-  "tray": {
-      "icon-size": 21,
-      "spacing": 10,
-      "icons": {
-          "blueman": "bluetooth",
-          "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
-      }
-  },
-
-  "pulseaudio": {
-      "format": "{volume}% {icon}",
-      "format-bluetooth": "{volume}% {icon}",
-      "format-muted": "",
-      "format-icons": {
-          "alsa_output.pci-0000_00_1f.3.analog-stereo": "",
-          "alsa_output.pci-0000_00_1f.3.analog-stereo-muted": "",
-          "headphone": "",
-          "hands-free": "",
-          "headset": "",
-          "phone": "",
-          "phone-muted": "",
-          "portable": "",
-          "car": "",
-          "default": ["","", ""]
-      },
-      "scroll-step": 1,
-      "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-      "on-click-right": "pavucontrol",
-      "ignored-sinks": ["Easy Effects Sink"],
-  },
-
-  // Wi-Fi module
-  "network#wifi": {
-      "interface": "wlan0",
-      "format-wifi": "{icon} {essid}",
-      "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
-      "format-ethernet": "",
-      "format-disconnected": "󰤮 Disconnected",
-      "format-linked": "",
-      "tooltip": false,
-      "tooltip-format-wifi": "SignalStrength - {signalStrength}%",
-      "tooltip-format-ethernet": "",
-      "tooltip-format-disconnected": "󰤮 disconnected",
-      "max-length": 50,
-      "interval": 5
-  },
-
-  // Ethernet module
-  "network#eth": {
-      "interface": "enp4s0",
-      "format-ethernet": "󰌘 {ifname}",
-      "format-wifi": "",
-      "format-disconnected": "󰌙 Disconnected",
-      "format-linked": "󰌙 Disconnected",
-      "tooltip": false,
-      "tooltip-format-ethernet": "{ifname} - IP: {ipaddr}",
-      "tooltip-format-wifi": "",
-      "tooltip-format-disconnected": "Ethernet disconnected",
-      "max-length": 50,
-      "interval": 5
-  },
-
-  "custom/notification": {
-    "tooltip": true,
-    "format": "<span size='16pt'>{icon}</span>",
-    "format-icons": {
-      "notification": "󱅫",
-      "none": "󰂜",
-      "dnd-notification": "󰂠",
-      "dnd-none": "󰪓",
-      "inhibited-notification": "󰂛",
-      "inhibited-none": "󰪑",
-      "dnd-inhibited-notification": "󰂛",
-      "dnd-inhibited-none": "󰪑"
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
-  },
 }

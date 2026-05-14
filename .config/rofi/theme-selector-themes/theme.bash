@@ -1,1 +1,1 @@
-theme='style-2'
+theme='style-1'

@@ -13,13 +13,13 @@ configuration {
 window {
     enabled:                     true;
     fullscreen:                  false;
-    width:                       100%;
+    width:                       1000px;
     transparency:                "real";
     cursor:                      "default";
     spacing:                     0px;
     padding:                     0px;
     border:                      0px;
-    border-radius:               0px;
+    border-radius:               6px;
     border-color:                transparent;
     background-color:            transparent;
 }
@@ -32,12 +32,12 @@ mainbox {
 
 listview {
     enabled:                     true;
-    columns:                     6;
+    columns:                     3;
     lines:                       1;
-    spacing:                     40px;
+    spacing:                     20px;
     padding:                     20px;
     cycle:                       true;
-    dynamic:                     false;
+    dynamic:                     true;
     scrollbar:                   false;
     layout:                      vertical;
     reverse:                     false;
@@ -50,31 +50,27 @@ listview {
 
 element {
     enabled:                     true;
-    orientation:                 horizontal;
-    spacing:                     0px;
-    padding:                     7px;
+    orientation:                 vertical;
+    spacing:                     8px;
+    padding:                     10px;
     border-radius:               20px;
     cursor:                      pointer;
     background-color:            transparent;
     text-color:                  @main-fg;
 }
 
-@media(max-aspect-ratio: 1.8) {
-    element {
-        orientation:             vertical;
-    }
-}
 element selected.normal {
     background-color:            @select-bg;
     text-color:                  @select-fg;
 }
 
 element-icon {
-    size:                        33%;
+    size:                        300px;
     cursor:                      inherit;
     border-radius:               20px;
     background-color:            transparent;
-    margin:                      1px;
+    margin:                      0px;
+    padding:                     0px;
     text-color:                  inherit;
 }
 

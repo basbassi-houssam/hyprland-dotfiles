@@ -1,0 +1,8 @@
+{
+  "cpu": {
+      "interval": 1,
+      "format": "{usage}% ",
+      "tooltip": false,
+      "max-length": 10
+  },
+}

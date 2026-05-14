@@ -1,18 +1,42 @@
 {
-
-  "layer": "top",
   "position": "top",
   "margin-top": 15,
+  "modules-left": ["clock", "hyprland/workspaces", "custom/weather"],
+  "modules-center": ["tray"],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "pulseaudio",
+    "network#eth",
+    "custom/notification"
+  ],
 
-  "spacing": 18,
+  "cpu": {
+      "interval": 1,
+      "format": "{usage}% ",
+      "tooltip": false,
+      "max-length": 10
+  },
 
-  "modules-center": ["clock", "custom/weather", "hyprland/workspaces", "pulseaudio", "network#eth"],
+  "memory": {
+      "interval": 1,
+      "format": "{percentage}% ",
+      "tooltip": true,
+      "max-length": 10
+  },
 
   "clock": {
       "interval": 60,
-      "tooltip": true,
-      "format": "{:%I:%M %p}",
-      "tooltip-format": "{:%Y-%m-%d}",
+      "format": " {:%H:%M}",
+      "tooltip-format": "{:%d-%b-%Y}",
+      "max-length": 25
+  },
+
+  "custom/weather": {
+    "exec": "~/.config/waybar/bin/Weather waybar",
+    "interval": 300,
+    "tooltip": false,
+    "markup": "pango",
   },
 
   "hyprland/workspaces": {
@@ -20,18 +44,32 @@
     "on-click": "activate",
     "cursor": false,
     "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": "",
       "urgent": "",
+      "active": "",
       "default": ""
     },
     "sort-by-number": true,
+    "persistent-workspaces": {
+      "DP-2": [1, 2, 3, 4],
+      "DP-1": [5, 6, 7, 8]
+    }
+  },
+
+  "tray": {
+      "icon-size": 21,
+      "spacing": 10,
+      "icons": {
+          "blueman": "bluetooth",
+          "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+      }
   },
 
   "pulseaudio": {
@@ -54,19 +92,6 @@
       "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
       "on-click-right": "pavucontrol",
       "ignored-sinks": ["Easy Effects Sink"],
-  },
-
-  "pulseaudio/slider": {
-      "min": 0,
-      "max": 100,
-      "orientation": "horizontal"
-  },
-
-  "custom/weather": {
-    "exec": "~/.config/waybar/bin/Weather waybar",
-    "interval": 300,
-    "tooltip": false,
-    "markup": "pango",
   },
 
   // Wi-Fi module
@@ -98,6 +123,26 @@
       "tooltip-format-disconnected": "Ethernet disconnected",
       "max-length": 50,
       "interval": 5
-  }
+  },
 
+  "custom/notification": {
+    "tooltip": true,
+    "format": "<span size='16pt'>{icon}</span>",
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰂜",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰪓",
+      "inhibited-notification": "󰂛",
+      "inhibited-none": "󰪑",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰪑"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
 }
