@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "$HOME/.config/hypr/theme.bash"
+
+hyprctl setcursor $theme-cursor 20

@@ -1,0 +1,17 @@
+{
+  // Wi-Fi module
+  "network#wifi": {
+      "interface": "wlan0",
+      "format-wifi": "{icon} {essid}",
+      "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+      "format-ethernet": "",
+      "format-disconnected": "󰤮 Disconnected",
+      "format-linked": "",
+      "tooltip": false,
+      "tooltip-format-wifi": "SignalStrength - {signalStrength}%",
+      "tooltip-format-ethernet": "",
+      "tooltip-format-disconnected": "󰤮 disconnected",
+      "max-length": 50,
+      "interval": 5
+  },
+}

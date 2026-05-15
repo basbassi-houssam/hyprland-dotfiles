@@ -1,0 +1,25 @@
+{
+  "position": "top",
+  "include": [
+      "modules/one-dark-modules/clock.jsonc",
+      "modules/one-dark-modules/hyprland-workspaces.jsonc",
+      "modules/one-dark-modules/cpu.jsonc",
+      "modules/one-dark-modules/memory.jsonc",
+      "modules/one-dark-modules/tray.jsonc",
+      "modules/one-dark-modules/custom-weather.jsonc",
+      "modules/one-dark-modules/pulseaudio.jsonc",
+      "modules/one-dark-modules/network-eth.jsonc",
+      "modules/one-dark-modules/network#wifi.jsonc",
+      "modules/one-dark-modules/custom-notification.jsonc",
+  ],
+  "margin-top": 15,
+  "modules-left": ["clock", "hyprland/workspaces", "custom/weather"],
+  "modules-center": ["tray"],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "pulseaudio",
+    "network#eth",
+    "custom/notification"
+  ],
+}

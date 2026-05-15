@@ -1,1 +1,1 @@
-theme='style-1'
+theme='arctic-monsoon'

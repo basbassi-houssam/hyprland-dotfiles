@@ -1,0 +1,8 @@
+{
+  "memory": {
+      "interval": 1,
+      "format": "{percentage}% ",
+      "tooltip": true,
+      "max-length": 10
+  },
+}

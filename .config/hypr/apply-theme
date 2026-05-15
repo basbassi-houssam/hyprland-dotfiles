@@ -11,7 +11,7 @@ echo "theme='$theme'" | tee "$HOME/.config/hypr/hyprlock/theme.bash"
 echo "theme='$theme'" | tee "$HOME/.config/waybar/theme.bash"
 echo "theme='$theme'" | tee "$HOME/.config/swaync/theme.bash"
 echo "theme='$theme'" | tee "$HOME/Pictures/wallpapers/theme.bash"
-echo "\$theme = $theme" | tee "$HOME/.config/hypr/window-theme.conf"
+echo "\$theme = $theme" | tee "$HOME/.config/hypr/configs/window-theme.conf"
 
 echo "include ./themes/${theme}.conf" | tee "$HOME/.config/kitty/theme.conf" >/dev/null
 

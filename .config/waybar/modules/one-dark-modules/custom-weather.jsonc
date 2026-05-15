@@ -1,0 +1,8 @@
+{
+  "custom/weather": {
+    "exec": "~/.config/waybar/bin/Weather waybar",
+    "interval": 300,
+    "tooltip": false,
+    "markup": "pango",
+  },
+}

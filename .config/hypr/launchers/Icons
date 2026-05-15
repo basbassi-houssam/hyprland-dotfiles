@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source "$HOME/.config/hypr/theme.bash"
+
+gsettings set org.gnome.desktop.interface icon-theme "$theme-icons"

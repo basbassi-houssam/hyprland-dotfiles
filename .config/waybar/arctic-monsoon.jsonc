@@ -1,0 +1,37 @@
+{
+  "position": "top",
+  "height": 40,
+  "include": [
+      "modules/arctic-monsoon-modules/clock.jsonc",
+      "modules/arctic-monsoon-modules/hyprland-workspaces.jsonc",
+      "modules/arctic-monsoon-modules/cpu.jsonc",
+      "modules/arctic-monsoon-modules/memory.jsonc",
+      "modules/arctic-monsoon-modules/tray.jsonc",
+      "modules/arctic-monsoon-modules/custom-weather.jsonc",
+      "modules/arctic-monsoon-modules/pulseaudio.jsonc",
+      "modules/arctic-monsoon-modules/network-eth.jsonc",
+      "modules/arctic-monsoon-modules/network#wifi.jsonc",
+      "modules/arctic-monsoon-modules/custom-notification.jsonc",
+      "modules/arctic-monsoon-modules/custom-launcher.jsonc",
+  ],
+  "modules-left": ["custom/launcher"],
+  "modules-center": ["clock", "hyprland/workspaces"],
+  "modules-right": [
+    "custom/weather",
+    "pulseaudio",
+    "network#eth",
+    "custom/separator-dot",
+    "tray"
+  ],
+
+  "custom/separator": {
+      "format": "|",          // The character(s) to display
+      "tooltip": false        // Disable the hover tooltip for a cleaner look
+  },
+
+  "custom/separator-dot": {
+      "format": "󰇙",
+      "tooltip": false
+  },
+
+}

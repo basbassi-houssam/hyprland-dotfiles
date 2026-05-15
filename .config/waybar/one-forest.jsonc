@@ -1,0 +1,25 @@
+{
+
+  "layer": "top",
+  "position": "top",
+  "include": [
+      "modules/one-forest-modules/clock.jsonc",
+      "modules/one-forest-modules/hyprland-workspaces.jsonc",
+      "modules/one-forest-modules/cpu.jsonc",
+      "modules/one-forest-modules/memory.jsonc",
+      "modules/one-forest-modules/tray.jsonc",
+      "modules/one-forest-modules/custom-weather.jsonc",
+      "modules/one-forest-modules/pulseaudio.jsonc",
+      "modules/one-forest-modules/network-eth.jsonc",
+      "modules/one-forest-modules/network#wifi.jsonc",
+      "modules/one-forest-modules/custom-notification.jsonc",
+  ],
+  "margin-top": 15,
+
+  "spacing": 18,
+
+  "modules-center": ["clock", "custom/weather", "hyprland/workspaces", "pulseaudio", "network#eth"],
+
+
+
+}

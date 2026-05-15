@@ -1,0 +1,16 @@
+{
+  // Ethernet module
+  "network#eth": {
+      "interface": "enp4s0",
+      "format-ethernet": "󰌘 {ifname}",
+      "format-wifi": "",
+      "format-disconnected": "󰌙 Disconnected",
+      "format-linked": "󰌙 Disconnected",
+      "tooltip": false,
+      "tooltip-format-ethernet": "{ifname} - IP: {ipaddr}",
+      "tooltip-format-wifi": "",
+      "tooltip-format-disconnected": "Ethernet disconnected",
+      "max-length": 50,
+      "interval": 5
+  },
+}

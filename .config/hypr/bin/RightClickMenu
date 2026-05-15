@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Get the window under cursor using hyprctl
+WINDOW_INFO=$(hyprctl cursorpos -j | hyprctl activewindow -j 2>/dev/null)
+
+# Check if we're on the desktop (no active window)
+if ! hyprctl activewindow -j | grep -q '"mapped": true'; then
+    # No active window = clicking on desktop
+    jgmenu --csv-file="$HOME/.config/bspwm/config/jgmenu.txt" \
+           --config-file="$HOME/.config/bspwm/config/jgmenurc"
+fi

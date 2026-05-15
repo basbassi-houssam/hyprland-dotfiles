@@ -6,9 +6,9 @@ source "$HOME/.config/rofi/theme-selector-themes/theme.bash"
 
 # Define the themes with their image paths
 themes=(
-  "style-1|Style 1|~/.config/rofi/theme-selector-themes/images/style-1.png"
-  "style-2|Style 2|~/.config/rofi/theme-selector-themes/images/style-2.png"
-  "style-3|Style 3|~/.config/rofi/theme-selector-themes/images/style-3.png"
+  "one-dark|One-Dark|~/.config/rofi/theme-selector-themes/images/one-dark.png"
+  "one-forest|One-Forest|~/.config/rofi/theme-selector-themes/images/one-forest.png"
+  "arctic-monsoon|Arctic-Monsoon|~/.config/rofi/theme-selector-themes/images/arctic-monsoon.png"
 )
 
 # Path to your rofi theme
