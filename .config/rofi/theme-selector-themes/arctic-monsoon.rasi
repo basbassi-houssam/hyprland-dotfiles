@@ -14,6 +14,12 @@
     spacing:    0px;
 }
 
+configuration {
+    kb-cancel: "MousePrimary";
+    me-select-entry: "";
+    me-accept-entry: "!MousePrimary";
+}
+
 window {
     location:       north;
     y-offset:       calc(50% - 176px);

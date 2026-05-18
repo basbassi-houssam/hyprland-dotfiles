@@ -1,0 +1,61 @@
+#!/bin/bash
+
+ROFI_THEME="$HOME/.config/rofi/keylayout-themes/one-forest.rasi"
+
+# Function to get current layout (works with active keymap)
+get_current_layout() {
+  # Try JSON method first (most reliable)
+  if command -v jq &>/dev/null; then
+    hyprctl devices -j 2>/dev/null | jq -r '.keyboards[] | select(.main == true) | .active_keymap' 2>/dev/null | head -1
+  else
+    # Fallback to text parsing
+    hyprctl devices 2>/dev/null | grep -A 15 "keyboard" | grep "active keymap" | head -1 | awk -F ': ' '{print $2}' | awk '{print $1}'
+  fi
+}
+
+# Get current layout
+CURRENT_LAYOUT=$(get_current_layout)
+
+# Convert full keymap names to short codes
+get_short_layout() {
+  case "$1" in
+  *"us"* | *"English"*) echo "us" ;;
+  *"ara"* | *"Arabic"*) echo "ara" ;;
+  *) echo "us" ;; # Default to us if unknown
+  esac
+}
+
+SHORT_LAYOUT=$(get_short_layout "$CURRENT_LAYOUT")
+
+# Define layouts with display names
+declare -A LAYOUTS=(
+  ["us"]="🇺🇸 English (US)"
+  ["ara"]="🇲🇦 العربية (Arabic)"
+)
+
+# Build menu with current selection highlighted
+MENU=""
+for layout in "us" "ara"; do
+  if [ "$layout" = "$SHORT_LAYOUT" ]; then
+    MENU="${MENU}● ${LAYOUTS[$layout]}\n"
+  else
+    MENU="${MENU}○ ${LAYOUTS[$layout]}\n"
+  fi
+done
+
+MENU="${MENU%\\n}"
+
+# Show rofi and get selection
+SELECTED=$(echo -e "$MENU" | rofi -dmenu \
+  -theme "$ROFI_THEME" \
+  -p "⌨️  Keyboard Layout" \
+  -i)
+
+# Handle selection
+if [[ "$SELECTED" == *"🇺🇸"* ]]; then
+  hyprctl keyword input:kb_layout us
+  notify-send -t 1000 "Keyboard Layout" "Switched to 🇺🇸 English (US)" 2>/dev/null
+elif [[ "$SELECTED" == *"🇲🇦"* ]]; then
+  hyprctl keyword input:kb_layout ara
+  notify-send -t 1000 "Keyboard Layout" "Switched to 🇲🇦 العربية (Arabic)" 2>/dev/null
+fi

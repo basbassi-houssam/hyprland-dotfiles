@@ -1,6 +1,6 @@
 {
   "custom/launcher": {
-      "format": "󰣇 ",
+      "format": "󰣇",
       "tooltip": false,
       "on-click": "~/.config/hypr/bin/Drun"
   }

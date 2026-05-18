@@ -12,6 +12,8 @@ echo "theme='$theme'" | tee "$HOME/.config/waybar/theme.bash"
 echo "theme='$theme'" | tee "$HOME/.config/swaync/theme.bash"
 echo "theme='$theme'" | tee "$HOME/Pictures/wallpapers/theme.bash"
 echo "\$theme = $theme" | tee "$HOME/.config/hypr/configs/window-theme.conf"
+echo "\$cursor = $theme" | tee "$HOME/.config/hypr/configs/cursor.conf"
+sed -i '2s/Inherits=.*/Inherits='$theme'/' /usr/share/icons/default/index.theme
 
 echo "include ./themes/${theme}.conf" | tee "$HOME/.config/kitty/theme.conf" >/dev/null
 

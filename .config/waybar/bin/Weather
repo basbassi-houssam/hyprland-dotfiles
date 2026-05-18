@@ -55,7 +55,7 @@ get_weather_icon() {
   "03d" | "03n") echo "" ;;
   "04d" | "04n") echo "" ;;
   "09d" | "09n") echo "" ;;
-  "10d") echo "" ;;
+  "10d") echo "" ;;
   "10n") echo "" ;;
   "11d" | "11n") echo "" ;;
   "13d" | "13n") echo "" ;;

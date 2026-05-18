@@ -12,7 +12,11 @@ ln -sf $(pwd)/.config/rofi ~/.config/
 ln -sf $(pwd)/.config/swaync ~/.config/
 ln -sf $(pwd)/.config/waybar ~/.config/
 ln -sf $(pwd)/.config/yazi ~/.config/
+ln -sf $(pwd)/.config/ncmpcpp ~/.config/
+ln -sf $(pwd)/.config/mpd ~/.config/
 ln -sf $(pwd)/.local/share/fonts ~/.local/share/
+ln -sf $(pwd)/.local/share/icons ~/.local/share/
+ln -sf $(pwd)/.local/share/themes ~/.local/share/
 
 # Symlink home directory files
 ln -sf $(pwd)/.zshrc ~/

@@ -1,0 +1,162 @@
+[Icon Theme]
+Name=Palette Adwaita Blue
+Comment=Palette icon theme
+Inherits=Palette-Adwaita,Palette,Papirus,breeze,hicolor
+
+Example=folder
+
+FollowsColorScheme=true
+
+DesktopDefault=48
+DesktopSizes=16,22,24,32,48,64
+ToolbarDefault=22
+ToolbarSizes=16,22,24,32,48
+MainToolbarDefault=22
+MainToolbarSizes=16,22,24,32,48
+SmallDefault=16
+SmallSizes=16,22,24,32,48
+PanelDefault=48
+PanelSizes=16,22,24,32,48,64
+DialogDefault=48
+DialogSizes=16,22,24,32,48,64
+
+# Directory list
+Directories=16/places,22/places,24/places,32/places,48/places,64/places,96/places,128/places,256/places
+
+ScaledDirectories=16@2x/places,22@2x/places,24@2x/places,32@2x/places,48@2x/places,64@2x/places,96@2x/places,128@2x/places,256@2x/places
+
+# 16
+
+[16/places]
+Context=Places
+Size=16
+Type=Fixed
+
+# 16@2x
+
+[16@2x/places]
+Context=Places
+Size=16
+Scale=2
+Type=Fixed
+
+# 22
+
+[22/places]
+Context=Places
+Size=22
+Type=Fixed
+
+# 22@2x
+
+[22@2x/places]
+Context=Places
+Size=22
+Scale=2
+Type=Fixed
+
+# 24
+
+[24/places]
+Context=Places
+Size=24
+Type=Fixed
+
+# 24@2x
+
+[24@2x/places]
+Context=Places
+Size=24
+Scale=2
+Type=Fixed
+
+# 32
+
+[32/places]
+Context=Places
+Size=32
+Type=Fixed
+
+# 32@2x
+
+[32@2x/places]
+Context=Places
+Size=32
+Scale=2
+Type=Fixed
+
+# 48
+
+[48/places]
+Context=Places
+Size=48
+Type=Fixed
+
+# 48@2x
+
+[48@2x/places]
+Context=Places
+Size=48
+Scale=2
+Type=Fixed
+
+# 64
+
+[64/places]
+Context=Places
+Size=64
+Type=Fixed
+
+# 64@2x
+
+[64@2x/places]
+Context=Places
+Size=64
+Scale=2
+Type=Fixed
+
+# 96
+
+[96/places]
+Context=Places
+Size=96
+Type=Fixed
+
+# 96@2x
+
+[96@2x/places]
+Context=Places
+Size=96
+Scale=2
+Type=Fixed
+
+# 128
+
+[128/places]
+Context=Places
+Size=128
+Type=Fixed
+
+# 128@2x
+
+[128@2x/places]
+Context=Places
+Size=128
+Scale=2
+Type=Fixed
+
+# 256
+
+[256/places]
+Context=Places
+Size=256
+Type=Fixed
+
+# 256@2x
+
+[256@2x/places]
+Context=Places
+Size=256
+Scale=2
+Type=Fixed
+

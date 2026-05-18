@@ -1,29 +1,4 @@
 #!/bin/sh
-# =============================================================
-# Author:  gh0stzk (Hyprland port)
-# Repo:    https://github.com/gh0stzk/dotfiles
-# Date:    29.01.2025
-#
-# ScreenShoTer - A versatile screenshot script for Hyprland
-# Features:
-#   - Supports single and multi-monitor setups
-#   - By default captures only the monitor where cursor is located
-#   - Special option to capture all monitors at once
-#   - Multiple capture modes:
-#     	* Full screenshot of current monitor
-#     	* Custom area selection or active window capture
-#     	* Timed captures (3 seconds)
-#     	* Timed area selection (3 seconds after selection)
-#   - System notifications when taking screenshots
-#   - Automatic clipboard copy
-#   - Saves screenshots with timestamp
-#   - Works on Hyprland environments
-#
-# Dependencies: grim, slurp, rofi, wl-clipboard, swaync, hyprctl, jq
-#
-# Copyright (C) 2021-2026 gh0stzk <z0mbi3.zk@protonmail.com>
-# Licensed under GPL-3.0 license
-# =============================================================
 
 source "$HOME/.config/rofi/screenshot-themes/theme.bash"
 
@@ -37,12 +12,14 @@ filename="$dir/Shot-${timestamp}.png"
 
 # Rofi options
 s_full=""
-s_select=""
+s_select="󰆞"
+s_window=""
 s_in3=" 󰔝"
-s_select_in3=" 󰔝"
+s_select_in3="󰆞 󰔝"
+s_window_in3=" 󰔝"
 s_all="󰍹"
 
-# Function to get current monitor name based on mouse position
+# Function to get current monitor name based on mouse position (kept for compatibility)
 get_current_monitor_name() {
   # Get mouse position
   mouse_x=$(hyprctl cursorpos -j | jq -r '.x')
@@ -67,7 +44,7 @@ rofi_cmd() {
 }
 
 run_rofi() {
-  printf "%s\n%s\n%s\n%s\n%s\n" "$s_full" "$s_select" "$s_in3" "$s_select_in3" "$s_all" | rofi_cmd
+  printf "%s\n%s\n%s\n%s\n%s\n%s\n" "$s_full" "$s_select" "$s_window" "$s_in3" "$s_select_in3" "$s_window_in3" "$s_all" | rofi_cmd
 }
 
 show_notification() {
@@ -84,82 +61,132 @@ copy_screenshot() {
 
 take_screenshot() {
   mode="$1"
-  all_monitors="$2"
 
   case "$mode" in
   "full")
-    sleep 1
-    if [ "$all_monitors" != "true" ]; then
-      monitor_name=$(get_current_monitor_name)
-      if [ -n "$monitor_name" ]; then
-        grim -o "$monitor_name" "$filename"
-      else
-        grim "$filename"
-      fi
-    else
-      grim "$filename"
-    fi
+    hyprshot -m output -o "$dir" -f "Shot-${timestamp}.png"
     ;;
+
+  "full-delay")
+    # Select monitor FIRST
+    monitor_geom=$(
+      hyprctl monitors -j | jq -r '
+        .[] |
+        "\(.x),\(.y) \(.width)x\(.height)"
+      ' | slurp
+    )
+
+    [ -z "$monitor_geom" ] && return 1
+
+    # Countdown AFTER selection
+    countdown 3
+
+    grim -g "$monitor_geom" "$filename"
+    ;;
+
+  "window")
+    # Select window FIRST
+    window_geom=$(hyprctl clients -j | jq -r '
+      .[] |
+      "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"
+    ' | slurp)
+
+    [ -z "$window_geom" ] && return 1
+
+    # Countdown AFTER selecting window
+    countdown 3
+
+    grim -g "$window_geom" "$filename"
+    ;;
+
+  "window-now")
+    # Select window FIRST
+    window_geom=$(hyprctl clients -j | jq -r '
+      .[] |
+      "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"
+    ' | slurp)
+
+    [ -z "$window_geom" ] && return 1
+
+    grim -g "$window_geom" "$filename"
+    ;;
+
   "select")
-    geometry=$(slurp -d -c "#7722DC")
-    sleep 1
-    if [ -n "$geometry" ]; then
-      grim -g "$geometry" "$filename"
-    else
-      return 1
-    fi
+    # Select region FIRST
+    region=$(slurp)
+
+    [ -z "$region" ] && return 1
+
+    # Countdown AFTER selection
+    countdown 3
+
+    grim -g "$region" "$filename"
+    ;;
+
+  "select-now")
+    region=$(slurp)
+
+    [ -z "$region" ] && return 1
+
+    grim -g "$region" "$filename"
+    ;;
+
+  "all")
+    # ALL monitors together
+    grim "$filename"
     ;;
   esac
 
-  if [ "$?" -eq 0 ] && [ -e "$filename" ]; then
-    if [ -s "$filename" ]; then
-      paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga >/dev/null 2>&1
-      copy_screenshot
-      show_notification
-    else
-      rm -f "$filename"
-      return 1
-    fi
+  # Check if screenshot was taken successfully
+  if [ "$?" -eq 0 ] && [ -e "$filename" ] && [ -s "$filename" ]; then
+    paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga >/dev/null 2>&1
+    copy_screenshot
+    show_notification
+    return 0
+  else
+    [ -e "$filename" ] && [ ! -s "$filename" ] && rm -f "$filename"
+    return 1
   fi
 }
 
 countdown() {
-  for sec in $(seq "$1" -1 1); do
-    notify-send -r 345 -t 1100 -i ~/.config/hypr/config/assets/screenshot.png "Taking shot in : $sec"
-    sleep 1
-  done
+  notify-send \
+    -r 345 \
+    -t 2500 \
+    -i ~/.config/hypr/config/assets/screenshot.png \
+    "Taking Shot in : ${1} Seconds"
+
+  sleep "$1"
 }
 
 run_cmd() {
   case $1 in
   --now)
-    take_screenshot "full" false
+    take_screenshot "full"
     ;;
+
   --sel)
-    take_screenshot "select" false
+    take_screenshot "select-now"
     ;;
+
+  --window)
+    take_screenshot "window-now"
+    ;;
+
   --in3)
-    countdown 3 && take_screenshot "full" false
+    take_screenshot "full-delay"
     ;;
+
   --sel-in3)
-    geometry=$(slurp -d -c "#7722DC")
-    if [ -n "$geometry" ]; then
-      countdown 3
-      grim -g "$geometry" "$filename"
-      if [ "$?" -eq 0 ] && [ -s "$filename" ]; then
-        paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga >/dev/null 2>&1
-        copy_screenshot
-        show_notification
-      else
-        rm -f "$filename"
-        return 1
-      fi
-    else
-      return 1
-    fi
+    take_screenshot "select"
     ;;
+
+  --window-in3)
+    take_screenshot "window"
+    ;;
+
   --all)
-    take_screenshot "full" true
+    take_screenshot "all"
     ;;
   esac
 }
@@ -172,11 +199,17 @@ case ${select_option} in
 "$s_select")
   run_cmd --sel
   ;;
+"$s_window")
+  run_cmd --window
+  ;;
 "$s_in3")
   run_cmd --in3
   ;;
 "$s_select_in3")
   run_cmd --sel-in3
+  ;;
+"$s_window_in3")
+  run_cmd --window-in3
   ;;
 "$s_all")
   run_cmd --all

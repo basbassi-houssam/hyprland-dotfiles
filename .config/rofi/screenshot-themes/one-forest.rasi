@@ -4,6 +4,10 @@ configuration {
 	hover-select:				true;
 	me-select-entry:			"";
 	me-accept-entry:			"MousePrimary";
+
+    kb-cancel: "MousePrimary";
+    me-select-entry: "";
+    me-accept-entry: "!MousePrimary";
 }
 
 @import "colors/one-forest-colors.rasi"
@@ -14,7 +18,7 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  false;
-    width:                       600px;
+    width:                       700px;
     x-offset:                    0px;
     y-offset:                    0px;
     margin:                      0px;
@@ -86,7 +90,7 @@ textbox {
 
 listview {
     enabled:                     true;
-    columns:                     5;
+    columns:                     7;
     lines:                       1;
     cycle:                       true;
     scrollbar:                   false;

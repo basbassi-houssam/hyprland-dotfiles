@@ -1,5 +1,12 @@
 #!/bin/bash
 
-source "$HOME/.config/hypr/theme.bash"
+# Log that script started
+echo "$(date): Script started" >>/tmp/cursor_log.txt
+echo "Script location: ~/.config/hypr/launchers/Cursor" >>/tmp/cursor_log.txt
 
-hyprctl setcursor $theme-cursor 20
+source "$HOME/.config/hypr/theme.bash"
+echo "theme-cursor value: $theme-cursor" >>/tmp/cursor_log.txt
+
+hyprctl setcursor $theme-cursor 20 2>&1 >>/tmp/cursor_log.txt
+echo "Exit code: $?" >>/tmp/cursor_log.txt
+echo "------------------------" >>/tmp/cursor_log.txt
